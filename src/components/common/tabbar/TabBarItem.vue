@@ -1,14 +1,9 @@
 <template>
+  <!--所有的item都展示同一个图片, 同一个文字-->
   <div class="tab-bar-item" @click="itemClick">
-    <div v-if="!isActive">
-      <slot name="item-icon"></slot>
-    </div>
-    <div v-else>
-      <slot name="item-icon-active"></slot>
-    </div>
-    <div :style="activeStyle">
-      <slot name="item-text"></slot>
-    </div>
+    <div v-if="!isActive"><slot name="item-icon"></slot></div>
+    <div v-else><slot name="item-icon-active"></slot></div>
+    <div :style="activeStyle"><slot name="item-text"></slot></div>
   </div>
 </template>
 
@@ -29,6 +24,10 @@
     },
     computed: {
       isActive() {
+        // /home -> item1(/home) = true
+        // /home -> item1(/category) = false
+        // /home -> item1(/cart) = true
+        // /home -> item1(/profile) = true
         return this.$route.path.indexOf(this.path) !== -1
       },
       activeStyle() {
@@ -37,7 +36,7 @@
     },
     methods: {
       itemClick() {
-        this.$router.push(this.path)
+        this.$router.replace(this.path)
       }
     }
   }
